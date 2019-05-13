@@ -1,0 +1,18 @@
+{% for cat in main_categories %}
+    <li class="menu-item menu-blog">
+        <a href="{{cat.get_absolute_url}}" {% if cat.children.all %} class="with-subs" {% endif %} >
+            {{cat.name}}
+        </a>
+
+        {% if cat.children.all %}
+            <ul class="sub-menu">
+
+                {% for child in cat.children.all %}
+                    <li><a href="{{child.get_absolute_url}}">{{ child.name }}</a></li>
+                {% endfor %}
+
+            </ul>
+        {% endif %}
+
+    </li>
+{% endfor %}

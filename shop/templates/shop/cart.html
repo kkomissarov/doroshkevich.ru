@@ -1,0 +1,216 @@
+{% extends 'shop/base.html' %}
+
+
+{% block body_classes %}
+    product cart check-out
+{% endblock body_classes %}
+
+
+{% block seo_title %}
+  Ваша корзина покупок
+{% endblock seo_title %}
+
+
+{% block seo_description %}
+  Для оформления покупки необходимо заполнить поля формы.
+{% endblock seo_description %}
+
+{% block main_content %}
+
+     <div id="example-wrapper">
+
+         <div class="div-box mb mt">
+            <div class="container">
+                <h1 class="text-center">Оформление заказа</h1>
+            </div>
+
+            <div class="container empty-notification" {% if cart.items.count > 0 %} style="display:none;" {% endif %}>
+            <p>Ваша корзина пуста...</p>
+            </div>
+        </div>
+
+
+        {% if cart.items.count > 0 %}
+          <div class="container">
+            <p>Проверьте состав вашего заказа, при необходимости внесите корректировки. Затем заполните информацию, необходимую для доставки, в форме ниже и нажмите кнопку "Оформить заказ". </p>
+            <form class="cart-form">
+              <table id="order-list-table">
+                <tr>
+                  <th>Товар</th>
+                  <th> </th>
+                  <th>Цена</th>
+                  <th>Количество</th>
+                  <th>Стоимость</th>
+                  <th> </th>
+                </tr>
+
+
+                {% for item in cart.items.all %}
+                    <tr id="product-in-cart-table-{{item.product.id}}">
+                        <td data-title="Фото">
+                            <a href="{{ item.product.get_absolute_url }}" class="image-product">
+                                <img src="{{item.product.images.first.image.url}}" alt="{{item.product.name}}" width="180" height="220"/>
+                            </a>
+                        </td>
+
+                        <td data-title="Название">
+                            <a href="{{ item.product.get_absolute_url }}" class="name-product">{{item.product.name}}</a>
+                        </td>
+
+                        <td data-title="Цена">
+                            <span class="price">{{item.product.price}} руб.</span>
+                        </td>
+
+                        <td data-title="Количество">
+                            <span class="quanlity">Количество:</span>
+
+                                <input type="number" value="{{item.qty}}" min="1" class="item-qty" data-product-id="{{item.product.id}}" />
+
+                        </td>
+                        <td data-title="Стоимость">{{ item.total }} руб.</td>
+                        <td data-title="Удалить">
+                            <a href="#" data-product-id="{{ item.product.id }}" class="remove_cart_item">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </td>
+                    </tr>
+                 {% endfor %}
+
+                <tr class="to-pay">
+                  <td colspan=4>Итого: </td>
+                  <td colspan=2 id="total-price">{{cart.total}} руб.</td>
+                </tr>
+
+              </table>
+            </form>
+          </div>
+
+
+
+     
+            <div class="container">
+              <form class="checkout" onsubmit="yaCounter51722645.reachGoal('order'); dataLayer.push({'event': 'event-pay-cart', 'eventCategory' : 'cart', 'eventAction' : 'pay' });" action="{% url 'cart_view' %}" method="post">
+                {% csrf_token %}
+                <div id="customer_details" class="col2-set row">
+                  <div class="col-1 col-md-6">
+                    <div class="product-begreen-billing-fields">
+                      <h3>Информация о доставке и оплате</h3>
+                      
+                      <div class="col-md-12">
+                        <label>{{ order_form.delivery_method.label }}</label>
+                        {{ order_form.delivery_method }}
+                        {% if order_form.delivery_method.errors %}
+                          <div class="form-errors"> {{ order_form.delivery_method.errors }} </div>
+                        {% endif %}
+                      </div>
+
+                      <div class="col-md-6">
+                        <label>{{ order_form.first_name.label }} <abbr title="Обязательное поле" class="required">*</abbr></label>
+                        {{ order_form.first_name }}
+                        {% if order_form.first_name.errors %}
+                          <div class="form-errors"> {{ order_form.first_name.errors }} </div>
+                        {% endif %}
+                      </div>
+
+                      <div class="col-md-6">
+                        <label>{{ order_form.last_name.label }} <abbr title="Обязательное поле" class="required">*</abbr></label>
+                        {{ order_form.last_name }}
+                        {% if order_form.last_name.errors %}
+                          <div class="form-errors"> {{ order_form.last_name.errors }} </div>
+                        {% endif %}
+                      </div>
+
+                      <div class="col-md-6">
+                        <label>{{ order_form.phone.label }} <abbr title="Обязательное поле" class="required">*</abbr></label>
+                        {{ order_form.phone }}
+                        {% if order_form.phone.errors %}
+                          <div class="form-errors"> {{ order_form.phone.errors }} </div>
+                        {% endif %}
+                      </div>
+
+                      <div class="col-md-6">
+                        <label>{{ order_form.email.label }} <abbr title="Обязательное поле" class="required">*</abbr></label>
+                        {{ order_form.email }}
+                        {% if order_form.email.errors %}
+                          <div class="form-errors"> {{ order_form.email.errors }} </div>
+                        {% endif %}
+                      </div>
+
+                      <div class="col-md-12" id="cart-city-wrapper">
+                        <label>{{ order_form.city.label }} <abbr title="Обязательное поле" class="required">*</abbr></label>
+                        {{ order_form.city }}
+                        {% if order_form.city.errors %}
+                          <div class="form-errors"> {{ order_form.city.errors }} </div>
+                        {% endif %}
+                      </div>
+
+                      <div class="col-md-12">
+                        <label>{{ order_form.delivery_address.label }} <abbr title="Обязательное поле" class="required">*</abbr></label>
+                        {{ order_form.delivery_address }}
+                        {% if order_form.delivery_address.errors %}
+                          <div class="form-errors"> {{ order_form.delivery_address.errors }} </div>
+                        {% endif %}
+                      </div>
+                      
+                      <div class="col-md-12" id="cart-tk-wrapper">
+                        <label>{{ order_form.delivery_company.label }} <abbr title="Обязательное поле" class="required">*</abbr></label>
+                        {{ order_form.delivery_company }}
+                        {% if order_form.delivery_company.errors %}
+                          <div class="form-errors"> {{ order_form.delivery_company.errors }} </div>
+                        {% endif %}
+                      </div>
+
+                      <div class="col-md-12">
+                        <label>{{ order_form.pay_type.label }}</label>
+                        {{ order_form.pay_type }}
+                        {% if order_form.pay_type.errors %}
+                          <div class="form-errors"> {{ order_form.pay_type.errors }} </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div class="col-1 col-md-6">
+                    <div class="product-begreen-billing-fields">
+                      <h3>Дополнительная информация</h3>
+                      <label>{{ order_form.order_comments.label }}</label>
+                      {{ order_form.order_comments }}
+                        {% if order_form.order_comments.errors %}
+                          <div class="form-errors"> {{ order_form.order_comments.errors }} </div>
+                        {% endif %}
+                    </div>
+                  </div>
+
+                  <div class="col-1 col-md-6">
+                    <button class="btn btn-3 pull-right mt-20" type="submit">Оформить заказ</button>
+                  </div>
+                  
+
+
+                </div>
+              </form>
+            </div>
+
+
+
+      </div>
+
+    {% endif %}
+
+
+
+
+
+{% endblock main_content %}
+    
+    
+     
+     
+    
+    
+    
+    
+    
+    

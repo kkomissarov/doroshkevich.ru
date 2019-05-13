@@ -1,0 +1,24 @@
+{{ order.date|date:"d-m-y / H:i" }} на сайт поступил новый заказ с номером {{ order.id }}.
+
+Состав заказа
+{% for item in order.cart.items.all %}
+    {{item.name}} - {{item.qty}} шт.
+{% endfor %}
+    Общая сумма заказа: {{order.cart.total}} рублей
+
+
+Параметры доставки
+Способ доставки: {{order.get_delivery_method_display }}
+Город доставки: {{order.city }}
+Адрес доставки: {{order.delivery_address }}
+Транспортная компания: {{order.delivery_company}}
+Способ оплаты: {{order.get_pay_type_display}}
+
+
+Информация о клиенте
+Имя: {{ order.first_name }}
+Фамилия: {{ order.last_name }}
+Телефон: {{ order.phone }}
+Email: {{ order.email }}
+
+Полную информацию о заказе можно также посмотреть в разделе "Заказы" в интерфейсе администратора сайта.

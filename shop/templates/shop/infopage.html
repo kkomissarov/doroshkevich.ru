@@ -1,0 +1,33 @@
+{% extends 'shop/base.html' %}
+
+{% block body_classes %}
+    infopage
+{% endblock body_classes %}
+
+
+{% block seo_title %}
+  {{ object.seo_title }}
+{% endblock seo_title %}
+
+
+{% block seo_description %}
+  {{ object.seo_description }}
+{% endblock seo_description %}
+
+{% block main_content %}
+      <div id="example-wrapper">
+        <div class="div-box mb mt">
+          <div class="container">
+
+              <div class="col-md-6">
+
+                 <h1>{{ object.name }}</h1>
+
+                 {{ object.content|safe }}
+
+              </div>
+
+          </div>
+        </div>
+      </div>
+{% endblock main_content %}

@@ -1,0 +1,39 @@
+<p>Вы оформили заказ на сайте <a href="http://doroshkevich.ru">doroshkevich.ru</a>.
+    Номер Вашего заказа - {{ order.id }}. </p>
+
+<h3>Состав заказа</h3>
+{% for item in order.cart.items.all %}
+    <p>{{item.name}} - {{item.qty}} шт. </p>
+{% endfor %}
+    <p>Общая сумма заказа: {{order.cart.total}} рублей</p>
+
+
+<h3>Параметры доставки</h3>
+<p>Способ доставки: {{order.get_delivery_method_display }}</p>
+<p>Город доставки: {{order.city }}</p>
+<p>Адрес доставки: {{order.delivery_address }}</p>
+
+{% if order.delivery_company != 'Не указано'%}
+    <p>Транспортная компания: {{order.delivery_company}}</p>
+{% endif %}
+
+<p>Способ оплаты: {{order.get_pay_type_display}}</p>
+
+<h3>Информация о клиенте</h3>
+<p>Имя: {{ order.first_name }}</p>
+<p>Фамилия: {{ order.last_name }}</p>
+<p>Телефон: {{ order.phone }}</p>
+<p>Email: {{ order.email }}</p>
+
+
+{% if order.pay_type == 'card'%}
+    <h3>Инcтрукция по оплате</h3>
+	<p>До совершения оплаты, пожалуйста, дождитесь письменного или устного (по телефону) подтверждения менеджера о наличии товара и о стоимости доставки.</p>
+
+	<p><strong>Реквизиты для оплаты:</strong><br>
+
+	Номер карты сбербанка 4276 3801 6247 2497, <br>
+	карта привязана к номеру телефона +7(985)574-05-79, <br>
+	держатель - Дорошкевич Надежда Васильевна.
+	</p>
+{% endif %}

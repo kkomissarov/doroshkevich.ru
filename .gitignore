@@ -1,0 +1,6 @@
+*shop/static/images
+*static/images/
+*__pycache__/
+*.idea
+*.sqlite3
+

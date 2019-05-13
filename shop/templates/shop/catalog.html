@@ -1,0 +1,193 @@
+{%extends 'shop/base.html'%}
+
+{% block body_classes %}
+  products products-grid-3-columns
+{% endblock body_classes %}
+
+
+{% block seo_title %}
+  Посуда на заказ в интернет-магазине недорого в Москве и СПб - Doroshkevich.ru
+{% endblock seo_title %}
+
+
+{% block seo_description %}
+    Посуда на заказ ручной работы в мастерской Надежды Дорошкевич. Доставка посуды по всей России. Интернет-магазин Doroshkevich.ru.
+{% endblock seo_description %}
+
+
+{% block extra_head %}
+  {% if is_noindex %}
+    <meta name="robots" content="noindex, follow">
+  {% endif %}
+
+
+   {% if is_paginated %}
+      
+      {% if page_obj.has_previous %}
+        {% if page_obj.previous_page_number > 1 %}
+          <link rel="prev" href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{{request.path}}?page={{page_obj.previous_page_number}}">
+        {% else %}
+          <link rel="prev" href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{{request.path}}">
+        {% endif %}
+
+      {% endif %}
+
+      {% if page_obj.has_next %}
+          <link rel="next" href="{% if request.is_secure %}https://{% else %}http://{% endif %}{{request.get_host}}{{request.path}}?page={{page_obj.next_page_number}}">
+      {% endif %}
+
+   {% endif %}
+
+{% endblock extra_head %}
+
+
+
+
+{% block main_content %}
+  <div id="example-wrapper">
+
+      <div class="div-box mt-45">
+          <div class="container">
+              <div class="category-text-field">
+                 <h1>Посуда на заказ</h1>
+              </div>
+          </div>
+      </div>
+ 
+
+
+
+
+      <div class="div-box mb-20">
+        <div class="container">
+          <div data-js-module="filtering-demo" class="big-demo go-wide style-2">  
+            <ul class="grid shortcode-product-wrap product-begreen columns-3">
+
+              {% for product in object_list %}
+                <li data-category="outdoor" class="element-item product-item-wrap product-style_1 featured indoor new seeds">
+                  <div class="product-item-inner">
+                    <div class="product-thumb">
+                      <div class="product-flash-wrap"></div>
+                      <div class="product-thumb-primary"><img src="{{ product.images.first.image.url }}" alt="{{ product.name }}" width="375" height="450" class="attachment-shop_catalog size-shop_catalog wp-post-image"/></div>
+                      <a href="{{ product.get_absolute_url }}" class="product-link"></a>
+                    </div>
+                    <div class="product-info">
+                      <a href="{{ product.get_absolute_url }}">
+                        <h3>{{ product.name }}</h3>
+                      </a>
+                      <span class="price">
+                        <span class="product-begreen-price-amount amount">{{product.price}}</span>
+                        <span class="product-begreen-price-currencysymbol">руб.</span>
+                      </span>
+                      <p class="button-product text-center mb-20">
+
+                          {% if product.id in products_in_cart_ids %}
+                            <a class="btn btn-in-cart add-to-cart-btn" data-product-id="{{product.id}}" href="#"><i class="fa fa-check-circle-o" aria-hidden="true"></i> В корзине</a>
+                          {% else %}
+                            <a class="btn btn-3 add-to-cart-btn" data-product-id="{{product.id}}" href="#">В корзину</a>
+                          {% endif %}
+                      </p>
+
+                    </div>
+                  </div>
+                </li>
+              {% endfor %}
+
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+
+      {% if is_paginated %}
+
+          <div class="container">
+            <div class="pagination-style-2 mb-20">
+                <div class="pagination-list">
+
+
+                    {% if page_obj.number >= 4 %}
+                        <div class="page">
+                            <a class="pagen_link" href="{{ category.get_absolute_url }}">
+                                <i class="fa fa-angle-double-left"> </i>
+                            </a>
+                        </div>
+                    {% endif %}
+
+
+
+                    {% if page_obj.has_previous %}
+                        <div class="page">
+                            <a class="pagen_link" href="{{ category.get_absolute_url }}?page={{page_obj.previous_page_number}}">
+                                <i class="fa fa-angle-left"> </i>
+                            </a>
+                        </div>
+                    {% endif %}
+
+
+                     {% if page_obj.number >= 4 %}
+                        <div class="page">
+                            <a class="pagen_link" href="{{ category.get_absolute_url }}?page={{page_obj.number|add:'-3'}}">
+                                <i class="fa fa-ellipsis-h"></i>
+                            </a>
+                        </div>
+                    {% endif %}
+
+
+                    {% for i in page_obj.paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <div class="page active">{{i}}</div>
+                        {% elif page_obj.number|add:'-2' <= i and i <= page_obj.number|add:'2' %}
+                                <div class="page">
+                                    <a class="pagen_link" href="{{ category.get_absolute_url }}?page={{i}}">
+                                        {{i}}
+                                    </a>
+                                </div>
+                        {% endif %}
+                    {% endfor %}
+
+
+                    {% if page_obj.number <= page_obj.paginator.num_pages|add:'-3' %}
+                        <div class="page">
+                            <a class="pagen_link" href="{{ category.get_absolute_url }}?page={{page_obj.number|add:'3'}}">
+                                <i class="fa fa-ellipsis-h"></i>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                    {% if page_obj.has_next %}
+                        <div class="page">
+                            <a class="pagen_link" href="{{ category.get_absolute_url }}?page={{page_obj.next_page_number}}">
+                                <i class="fa fa-angle-right"> </i>
+                            </a>
+                        </div>
+                    {% endif %}
+
+
+                    {% if page_obj.number <= page_obj.paginator.num_pages|add:'-3' %}
+                        <div class="page">
+                            <a class="pagen_link" href="{{ category.get_absolute_url }}?page={{page_obj.paginator.num_pages}}">
+                                <i class="fa fa-angle-double-right"> </i>
+                            </a>
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+          </div>
+      {% endif %}
+
+
+  </div>
+
+
+{% endblock main_content %}
+
+
+
+
+
+
+
+       

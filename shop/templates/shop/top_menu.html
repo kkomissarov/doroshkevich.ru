@@ -1,0 +1,3 @@
+{% for page in infopages %}
+    <li><a href="{{page.get_absolute_url}}">{{ page.name }}</a></li>
+{% endfor %}

@@ -1,0 +1,50 @@
+<div class="widget_shopping_cart_content">
+
+<div class="widget_shopping_cart_icon">
+    <a href="{% url 'cart_view' %}">
+        <i class="wicon fa fa-shopping-bag"></i>
+    </a>
+    <span class="total" id="cart_count">{{ cart.items.count }}</span>
+</div>
+
+<div class="cart_list_wrapper">
+  <div class="scroll-wrapper cart_list product_list_widget scrollbar-inner">
+    <ul class="cart_list product_list_widget scrollbar-inner scroll-content">
+
+
+            <li class="empty" {% if cart.items.count > 0 %}style="display:none;"{% endif %}>
+                <h4>Корзина пуста</h4>
+                <p>Пока Вы еще ничего в нее не положили</p>
+            </li>
+
+            {% for item in cart.items.all %}
+                <li class="product-in-cart-widget">
+                    <div class="product-in-cart-widget__image">
+                        <img src="{{ item.product.images.first.image.url }}">
+                    </div><!--
+                  --><div class="product-in-cart-widget__info">
+                        <a href="{{item.product.get_absolute_url}}">
+                            <h3 class="product-in-cart-widget__name">{{ item.product.name }}</h3>
+                        </a>
+                        <p class="product-in-cart-widget__total" >{{ item.qty }} шт. x {{ item.total }} руб.</p>
+                        <p class="product-in-cart-widget__qty">
+                            <a href="#" class="remove-from-cart" data-product-id="{{item.product.id}}">Удалить</i></a>
+                        </p>
+                    </div>
+                </li>
+            {% endfor %}
+    </ul>
+
+    <div class="product-in-cart-widget__bottom">
+        <div class="product-in-cart-widget__total">Общая сумма: <span class="cart-total-sum">{{cart.total}} руб.</span></div>
+
+        <div>
+            <p class="button-product text-center">
+                <a class="btn btn-3 go-to-order" href="{% url 'cart_view'%}">Оформить заказ</a>
+            </p>
+        </div>
+    </div>
+
+</div>
+</div>
+</div>

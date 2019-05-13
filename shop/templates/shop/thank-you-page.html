@@ -1,0 +1,24 @@
+{% extends 'shop/base.html' %}
+
+{% block seo_title %}
+  Спасибо за Ваш заказ!
+{% endblock seo_title %}
+
+
+{% block seo_description %}
+  Ваш заказ оформлен! В ближайшее время с Вами свяжется наш менеджер для обсуждения деталей заказа.
+{% endblock seo_description %}
+
+{% block main_content %}
+     <div id="example-wrapper">
+
+         <div class="div-box mb mt">
+            <div class="container thank-you">
+                <h1 class="text-center">Ваш заказ оформлен!</h1>
+                <p>Спасибо за Ваш заказ. Мы отправили детали заказа и инструкцию по оплате на указанную Вами электронную почту.</p>
+                <p>Номер Вашего заказа: {{ order.id }}</p>
+            </div>
+         </div>
+     </div>
+
+{% endblock main_content %}

@@ -1,0 +1,301 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+
+{% block body_classes %}
+  product single-product
+{% endblock body_classes %}
+
+
+{% block seo_title %}
+  {{object.seo_title}}
+{% endblock seo_title %}
+
+
+{% block seo_description %}
+  {{object.seo_description}}
+{% endblock seo_description %}
+
+
+{% block extra_head %}
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{% if request.is_secure %}https{% else %}http{% endif %}://{{request.get_host}}{{ object.get_absolute_url }}" />
+  <meta property="og:title" content="{{ object.name }}" />
+  <meta property="og:description" content="{{ object.text_description }}" />
+  <meta property="og:image" content="{% if request.is_secure %}https{% else %}http{% endif %}://{{request.get_host}}{{ object.images.first.image.url }}" />
+{% endblock extra_head %}
+
+{% block main_content %}
+      <div id="example-wrapper">
+
+      <div class="div-box mt-20">
+          <div class="container">
+
+
+            <ul class="breadcrumbs">
+                <li><a href="/">Главная</a></li>
+
+                {% if object.category %}
+                  {% for breadcrumb in object.category.get_all_parents %}
+                    <li><a href="{{breadcrumb.1}}">{{ breadcrumb.0 }}</a></li>
+                  {% endfor %}
+                  <li><a href="{{object.category.get_absolute_url}}">{{ object.category.name }}</a></li>
+                {% endif %}
+
+
+
+                <li>{{object.name}}</li>
+
+            </ul>
+          </div>
+      </div>
+
+        <div class="div-box mb mt">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-5">
+
+                <h1 class="product_title-mobile mb-45">{{object.name}}</h1>
+
+                <div class="single-product-slider">
+                  <div id="sync1" class="owl-carousel owl-template">
+                    {% for img in product.images.all %}
+                        <div class="item">
+                            <figure><img src="{{img.image.url}}" alt="{{object.name}}" width="1080" height="768"/></figure>
+                        </div>
+                    {% endfor %}
+                  </div>
+
+                  <div id="sync2" class="owl-carousel owl-template">
+
+                   {% for img in product.images.all %}
+                      <div class="item">
+                        <figure><img src="{{img.image.url}}" alt="{{object.name}}" width="180" height="130"/></figure>
+                      </div>
+                    {% endfor %}
+
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="col-md-7">
+                <div class="single-product-content">
+                  <div class="summary-product entry-summary">
+
+                    <h1 class="product_title-desktop mb-45">{{object.name}}</h1>
+
+                    <div>
+                      <p class="price"><span class="product-begreen-price-amount amount">{{object.price}} руб.</span></p>
+                    </div>
+
+
+                    <div class="product-single-short-description">
+                      {{object.text_description|safe}}
+                    </div>
+
+
+
+                    <div class="product_meta"><span class="product-stock-status-wrapper">
+                        <label>Наличие:</label>
+                        <span class="product-stock-status in-stock">{{object.status}}</span>
+                    </div>
+
+
+
+                    <form class="cart" data-product-id="{{ object.id }}">
+                      <div class="quantity">
+                        <label>Количество:</label>
+                        <div class="quantity-inner">
+                          <input step="1" min="1" name="quantity" value="1" title="Qty" size="4" type="number" class="input-text qty text"/>
+                        </div>
+                      </div>
+
+                      {% if  object.id in products_in_cart_ids %}
+                        <button type="submit" onclick="yaCounter51722645.reachGoal('basket'); dataLayer.push({'event': 'event-add-to-basket', 'eventCategory' : 'basket_card', 'eventAction' : 'add' });" class="btn-in-cart btn"><i class="fa fa-check-circle-o" aria-hidden="true"></i> В корзине</button>
+                      {% else %}
+                        <button type="submit" onclick="yaCounter51722645.reachGoal('basket'); dataLayer.push({'event': 'event-add-to-basket', 'eventCategory' : 'basket_card', 'eventAction' : 'add' });" class="btn-3 btn">В корзину</button>
+                      {% endif %}
+
+                    </form>
+
+
+
+                    <div class="social-share-wrap">
+                      <label><i class="fa fa-share-alt"></i>Поделиться:</label>
+                      <ul class="social-share">
+                        
+                        <li>
+                          <a href="http://vk.com/share.php?url={% if request.is_secure %}https{% else %}http{% endif %}://{{request.get_host}}{{ object.get_absolute_url }}&title={{ object.name }}&description={{ object.text_description }}&image={% if request.is_secure %}https{% else %}http{% endif %}://{{request.get_host}}{{ object.images.first.image.url }}&noparse=true"><i class="fa fa-vk"></i></a>
+                        </li>
+
+                        <li>
+                          <a href="https://www.facebook.com/sharer/sharer.php?u={% if request.is_secure %}https{% else %}http{% endif %}://{{request.get_host}}{{ object.get_absolute_url }}"><i class="fa fa-facebook"></i>
+                          </a>
+                        </li>
+
+                        <li>
+                          <a href="https://twitter.com/share?url={% if request.is_secure %}https{% else %}http{% endif %}://{{request.get_host}}{{ object.get_absolute_url }}&text={{ object.name }}"><i class="fa fa-twitter"></i>
+                          </a>
+                        </li>
+
+                        <li>
+                          <a href="http://pinterest.com/pin/create/button/?url={% if request.is_secure %}https{% else %}http{% endif %}://{{request.get_host}}{{ object.get_absolute_url }}&media={% if request.is_secure %}https{% else %}http{% endif %}://{{request.get_host}}{{ object.images.first.image.url }}&description={{ object.text_description }}"><i class="fa fa-pinterest"></i>
+                          </a>
+                        </li>
+
+                      </ul>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+       <!--  <div class="div-box mb">
+          <div class="container">
+
+            <div class="title-style title-style-2 text-center mb-20">
+              <h2>Вам также могут понравиться </h2>
+            </div>
+
+
+            <div data-number="4" data-margin="0" data-loop="no" data-navcontrol="yes" class="shortcode-product-wrap product-begreen begreen-owl-carousel">
+
+
+              <div class="product-item-wrap product-style_1">
+                <div class="product-item-inner">
+                  <div class="product-thumb">
+
+                    <div class="product-flash-wrap"><span class="on-new product-flash">Скидка</span></div>
+
+                    <div class="product-thumb-primary">
+                      <img src="/static/images/my/prod4.jpg" alt="product1" width="375" height="450" class="attachment-shop_catalog size-shop_catalog wp-post-image"/>
+                    </div>
+
+
+                    <a href="#" class="product-link"></a>
+
+                    <div class="product-info">
+
+                      <a href="#">
+                        <h3>Ваза «Fall Trees»</h3>
+                      </a>
+
+                      <span class="price">
+                        <del><span class="product-begreen-price-amount amount">4 900 руб.</span></del>
+                        <span class="product-begreen-price-amount amount">4 000 руб.</span>
+                      </span>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="product-item-wrap product-style_1">
+                <div class="product-item-inner">
+                  <div class="product-thumb">
+
+
+                    <div class="product-thumb-primary">
+                      <img src="/static/images/my/prod4.jpg" alt="product1" width="375" height="450" class="attachment-shop_catalog size-shop_catalog wp-post-image"/>
+                    </div>
+
+
+                    <a href="#" class="product-link"></a>
+
+                    <div class="product-info">
+
+                      <a href="#">
+                        <h3>Ваза «Fall Trees»</h3>
+                      </a>
+
+                      <span class="price">
+
+                        <span class="product-begreen-price-amount amount">4 000 руб.</span>
+                      </span>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+              <div class="product-item-wrap product-style_1">
+                <div class="product-item-inner">
+                  <div class="product-thumb">
+
+                    <div class="product-flash-wrap"><span class="on-new product-flash">Новинка</span></div>
+
+                    <div class="product-thumb-primary">
+                      <img src="/static/images/my/prod4.jpg" alt="product1" width="375" height="450" class="attachment-shop_catalog size-shop_catalog wp-post-image"/>
+                    </div>
+
+
+                    <a href="#" class="product-link"></a>
+
+                    <div class="product-info">
+
+                      <a href="#">
+                        <h3>Ваза «Fall Trees»</h3>
+                      </a>
+
+                      <span class="price">
+                        <span class="product-begreen-price-amount amount">4 000 руб.</span>
+                      </span>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+
+              <div class="product-item-wrap product-style_1">
+                <div class="product-item-inner">
+                  <div class="product-thumb">
+
+                    <div class="product-thumb-primary">
+                      <img src="/static/images/my/prod4.jpg" alt="product1" width="375" height="450" class="attachment-shop_catalog size-shop_catalog wp-post-image"/>
+                    </div>
+
+
+                    <a href="#" class="product-link"></a>
+
+                    <div class="product-info">
+
+                      <a href="#">
+                        <h3>Ваза «Fall Trees»</h3>
+                      </a>
+
+                      <span class="price">
+                        <span class="product-begreen-price-amount amount">4 000 руб.</span>
+                      </span>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+             </div>
+
+            </div>
+          </div> -->
+
+          
+        </div>
+
+{% endblock main_content %}
